@@ -3,10 +3,17 @@ import Link from "next/link";
 import styles from "./page.module.css";
 import MealsGrid from "@/components/meals/meals-grid";
 import { MealItemType } from "@/types";
+import { getMeals } from "@/lib/meals";
+import { Suspense } from "react";
+import PageLoading from "./loading-out";
 
-export default function MealsPage(): JSX.Element {
-  const meals: MealItemType[] = []
-  
+async function Meals() {
+  const meals: MealItemType[] = await getMeals() as MealItemType[];
+
+  return <MealsGrid meals={meals} />
+}
+
+export default async function MealsPage(): Promise<JSX.Element> {
   return (
     <>
       <header className={styles.header}>
@@ -22,7 +29,9 @@ export default function MealsPage(): JSX.Element {
         </p>
       </header>
       <main>
-        <MealsGrid meals={meals} />
+        <Suspense fallback={<PageLoading />}>
+          <Meals />
+        </Suspense>
       </main>
     </>
   );

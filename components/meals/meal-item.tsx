@@ -1,15 +1,27 @@
-import Link from 'next/link';
-import Image from 'next/image';
+import Link from "next/link";
+import Image from "next/image";
 
-import classes from './meal-item.module.css';
-import { MealItemType } from '@/types';
+import classes from "./meal-item.module.css";
+import { MealItemType } from "@/types";
 
-export default function MealItem({ title, slug, image, summary, creator }: MealItemType) {
+export default function MealItem({
+  title,
+  slug,
+  image,
+  summary,
+  creator,
+}: MealItemType) {
   return (
     <article className={classes.meal}>
       <header>
         <div className={classes.image}>
-          <Image src={image} alt={title} fill />
+          <Image
+            src={image}
+            alt={title}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            priority={image==="/images/burger.jpg"}
+          />
         </div>
         <div className={classes.headerText}>
           <h2>{title}</h2>
