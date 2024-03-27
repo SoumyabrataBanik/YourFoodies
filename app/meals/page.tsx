@@ -1,13 +1,29 @@
-import { NextPage } from "next";
 import Link from "next/link";
 
+import styles from "./page.module.css";
+import MealsGrid from "@/components/meals/meals-grid";
+import { MealItemType } from "@/types";
+
 export default function MealsPage(): JSX.Element {
+  const meals: MealItemType[] = []
+  
   return (
-    <main>
-      <h1>This is the Meals Page</h1>
-      <h2><Link href="meals/share">Meals Share Page</Link></h2>
-      <h3><Link href="meals/1">Meals Slug Page 1</Link></h3>
-      <h3><Link href="meals/2">Meals Slug Page 2</Link></h3>
-    </main>
-  )
+    <>
+      <header className={styles.header}>
+        <h1>
+          Delicious meals cooked{" "}
+          <span className={styles.highlight}>by You</span>
+        </h1>
+        <p>Choose your recipe and cook it yourself.</p>
+        <p className={styles.cta}>
+          <Link href="/meals/share">
+            Share your favorite meal with the world
+          </Link>
+        </p>
+      </header>
+      <main>
+        <MealsGrid meals={meals} />
+      </main>
+    </>
+  );
 }

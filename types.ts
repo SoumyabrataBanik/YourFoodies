@@ -1,3 +1,4 @@
+import { Url } from "next/dist/shared/lib/router/router";
 import { ReactNode } from "react"
 
 export type RootLayoutTypes = {
@@ -6,14 +7,28 @@ export type RootLayoutTypes = {
 
 export type MealsSlugPageTypes = {
   params: {
-    slug: string;
+    mealSlug: string;
   }
 }
 
-export type NavbarTypes = {
-  classname: string;
+export type NavlinkTypes = {
+  href: Url,
+  children: ReactNode,
 }
 
 export type LogoTypes = {
   classname: string;
+}
+
+export type MealItemType = {
+  id: number,
+  title: string,
+  slug: string, 
+  image: string, 
+  summary: string, 
+  creator: string,
+}
+
+export type MealGridTypes = {
+  meals: Array<MealItemType>,
 }

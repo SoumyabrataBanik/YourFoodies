@@ -3,7 +3,7 @@ import './globals.css';
 import { RootLayoutTypes } from '@/types'; 
 
 export const metadata = {
-  title: 'NextLevel Food',
+  title: 'YourFoodies',
   description: 'Delicious meals, shared by a food-loving community.',
 };
 
