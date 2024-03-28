@@ -27,8 +27,15 @@ export type MealItemType = {
   image: string, 
   summary: string, 
   creator: string,
+  instructions: string,
+  creator_email: string, 
 }
 
 export type MealGridTypes = {
   meals: Array<MealItemType>,
+}
+
+export type ImagePickerTypes = {
+  label: string;
+  name: string;
 }

@@ -13,13 +13,6 @@ body {
   background: radial-gradient(#282c34, #282c34);
 }
 
-/* Added By me */
-main {
-  color: white;
-  text-align: center;
-}
-/* Remove after done */
-
 .not-found,
 .error {
   margin-top: 5rem;
