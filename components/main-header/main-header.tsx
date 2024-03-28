@@ -14,6 +14,11 @@ export default function MainHeader(): JSX.Element {
             <li>
               <Navlink href="/meals">Browse Meals</Navlink>
             </li>
+            
+            <li>
+              <Navlink href="/meals/share">Share your recipe</Navlink>
+            </li>
+            
             <li>
               <Navlink href="/community">YourFoodies Community</Navlink>
             </li>
