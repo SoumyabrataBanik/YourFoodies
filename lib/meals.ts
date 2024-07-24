@@ -104,7 +104,7 @@ export async function saveMeal(meal: MealItemType) {
   const {
     data: { publicUrl },
   } = supabase.storage
-    .from("meal-images") // Replace with your bucket name
+    .from("yourfoodies") // Replace with your bucket name
     .getPublicUrl(filename);
 
   meal.image = publicUrl;

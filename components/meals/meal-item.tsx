@@ -20,7 +20,7 @@ export default function MealItem({
             alt={title}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            priority={image==="/images/burger.jpg"}
+            priority={image === "/images/burger.jpg"}
           />
         </div>
         <div className={classes.headerText}>
