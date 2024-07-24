@@ -1,4 +1,4 @@
-import fs from "node:fs";
+//import fs from "node:fs";
 import { Pool } from "pg";
 import slugify from "slugify";
 import xss from "xss";
@@ -11,6 +11,12 @@ const pool = new Pool({
   connectionString:
     "postgresql://postgres.vltasuojbirpwazivnuz:Qs7S8UxFBU63iRSZ@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres",
 });
+
+// Initialize Supabase client
+const supabase = createClient(
+  "https://vltasuojbirpwazivnuz.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZsdGFzdW9qYmlycHdheml2bnV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjE4MzM0NDcsImV4cCI6MjAzNzQwOTQ0N30.ZvN5qswA0bFDhg5s0nTpzH3ZglldyMTNxvgVsN9ToW4",
+);
 
 export async function getMeals(): Promise<unknown[]> {
   const client = await pool.connect();
@@ -34,7 +40,7 @@ export async function getMeal(slug: string): Promise<unknown> {
   }
 }
 
-export async function saveMeal(meal: MealItemType) {
+/*export async function saveMeal(meal: MealItemType) {
   meal.slug = slugify(meal.title, { lower: true });
   meal.instructions = xss(meal.instructions);
 
@@ -76,4 +82,52 @@ export async function saveMeal(meal: MealItemType) {
   } finally {
     client.release();
   }
+}*/
+
+export async function saveMeal(meal: MealItemType) {
+  meal.slug = slugify(meal.title, { lower: true });
+  meal.instructions = xss(meal.instructions);
+
+  const extension = meal.imageFile.name.split(".").pop();
+  const filename = `${meal.slug}.${extension}`;
+
+  // Upload image to Supabase Storage
+  const { error } = await supabase.storage
+    .from("yourfoodies")
+    .upload(filename, meal.imageFile);
+
+  if (error) {
+    throw new Error("Failed to upload image: " + error.message);
+  }
+
+  // Get public URL of the uploaded image
+  const {
+    data: { publicUrl },
+  } = supabase.storage
+    .from("meal-images") // Replace with your bucket name
+    .getPublicUrl(filename);
+
+  meal.image = publicUrl;
+
+  // Insert meal data into the database
+  const { data: insertData, error: insertError } = await supabase
+    .from("meals")
+    .insert([
+      {
+        title: meal.title,
+        summary: meal.summary,
+        instructions: meal.instructions,
+        creator: meal.creator,
+        creator_email: meal.creator_email,
+        image: meal.image,
+        slug: meal.slug,
+      },
+    ]);
+
+  if (insertError) {
+    console.error("Error inserting meal data:", insertError);
+    throw new Error("Failed to save meal data");
+  }
+
+  return insertData;
 }
